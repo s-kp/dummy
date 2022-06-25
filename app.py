@@ -3,6 +3,7 @@ import streamlit as st
 from keras.models import load_model
 import cv2
 import numpy as np
+from time import sleep
 from keras.utils import img_to_array
 
 
