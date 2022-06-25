@@ -3,33 +3,27 @@ import streamlit as st
 from keras.models import load_model
 import cv2
 import numpy as np
-from time import sleep
-from numpy import asarray as img_to_array
+from keras.utils import img_to_array
 
 
 
 
-classifier = load_model('video.h5')
+classifier = load_model('mobilenet.h5')
 
-class_labels={0: 'angry', 1: 'disgust', 2: 'fear', 3: 'happy', 4: 'neutral', 5: 'sad', 6: 'surprise'}
-# class_labels={0: 'angry', 1: 'disgust', 2: 'fear', 3: 'happy', 4: 'sad', 5: 'surprise', 6: 'neutral'}
+class_labels = {0: 'angry', 1: 'disgust', 2: 'fear', 3: 'happy', 4: 'neutral', 5: 'sad', 6: 'surprise'}
 
-
-face_classifier = cv2.CascadeClassifier('haarcascade_frontalface_alt2.xml')
+face_classifier = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
 st.title("Face Emotion Detection")
 
 FRAME_WINDOW=st.image([])
 
 
-
-
-
 def face_detector(img):
     # Convert image to grayscale
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     faces = face_classifier.detectMultiScale(gray, 1.3, 5)
-    if faces is ():
+    if faces == ():
         return (0,0,0,0), np.zeros((48,48), np.uint8), img
     for (x,y,w,h) in faces:
         cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
@@ -42,7 +36,6 @@ def face_detector(img):
     return (x,w,y,h), roi_gray, img
 
 cap = cv2.VideoCapture(0)
-
 
 
 while True:
